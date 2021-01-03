@@ -8,7 +8,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:divider="@color/cardview_light_background"
-        android:dividerHeight="1dp" />
+        android:dividerHeight="@dimen/article_card_divider" />
 
     <ProgressBar
         android:id="@+id/loading"

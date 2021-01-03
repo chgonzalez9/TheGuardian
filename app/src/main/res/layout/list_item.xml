@@ -2,29 +2,49 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_marginTop="@dimen/article_card_margin_top"
+    android:layout_marginEnd="@dimen/article_card_margin_left"
+    android:layout_marginStart="@dimen/article_card_margin_right"
+    android:layout_marginBottom="@dimen/article_card_margin_bottom"
+    android:background="@drawable/article_card"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <TextView
         android:id="@+id/article_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginStart="@dimen/article_text_margin_right"
+        android:layout_marginTop="@dimen/article_title_margin_top"
+        android:layout_marginEnd="@dimen/article_text_margin_left"
+        android:textAlignment="center"
+        android:textAllCaps="true"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:textColor="#000000"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/article_section"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/article_text_margin_right"
+        android:layout_marginTop="@dimen/article_text_margin_top"
+        android:textAllCaps="true"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@id/article_type"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/article_title"
-        app:layout_constraintBottom_toTopOf="@id/article_type"/>
+        app:layout_constraintTop_toBottomOf="@id/article_title" />
 
 
     <TextView
         android:id="@+id/article_type"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/text_separation_margin"
+        android:layout_marginStart="@dimen/article_text_margin_right"
+        android:layout_marginBottom="@dimen/article_text_margin_bottom"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/article_section"
         app:layout_constraintBottom_toBottomOf="parent"/>
@@ -33,6 +53,10 @@
         android:id="@+id/article_date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/article_text_margin_left"
+        android:layout_marginBottom="@dimen/article_text_margin_bottom"
+        android:textAllCaps="true"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"/>
 

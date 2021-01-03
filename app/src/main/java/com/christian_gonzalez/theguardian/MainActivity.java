@@ -1,19 +1,30 @@
 package com.christian_gonzalez.theguardian;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.loader.app.LoaderManager;
 import androidx.loader.content.Loader;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.christian_gonzalez.theguardian.adapter.ArticleAdapter;
 import com.christian_gonzalez.theguardian.adapter.ArticleLoader;
 import com.christian_gonzalez.theguardian.utils.ArticleWords;
+import com.christian_gonzalez.theguardian.utils.Settings;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,6 +35,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
     private ListView listView;
     private ArticleAdapter mAdapter;
+    private TextView emptyStateText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,26 +56,79 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
                 startActivity(website);
             }
         });
-        
 
-        LoaderManager.getInstance(this).initLoader(0, null, this);
+        emptyStateText = (TextView) findViewById(R.id.empty_view);
+        listView.setEmptyView(emptyStateText);
 
+        ConnectivityManager connMgr =
+                (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
+
+        if (networkInfo != null && networkInfo.isConnected()) {
+            LoaderManager.getInstance(this).initLoader(0, null, this);
+        } else {
+            View loadingIndicator = findViewById(R.id.loading);
+            loadingIndicator.setVisibility(View.GONE);
+
+            emptyStateText.setText(R.string.no_internet);
+        }
 
     }
 
 
+    @NonNull
     @Override
-    public Loader<List<ArticleWords>> onCreateLoader(int id, Bundle args) {
+    public Loader<List<ArticleWords>> onCreateLoader(int id, Bundle bundle) {
 
-        return new ArticleLoader(this, TheGuardianUrl);
+        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
+
+        String section = sharedPrefs.getString(
+                getString(R.string.settings_section_key),
+                getString(R.string.settings_section_default));
+
+        String orderBy = sharedPrefs.getString(
+                getString(R.string.settings_order_by_key),
+                getString(R.string.settings_order_by_default));
+
+        Uri baseUri = Uri.parse(TheGuardianUrl);
+        Uri.Builder builder = baseUri.buildUpon();
+
+        listView.setOnScrollListener(new AbsListView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(AbsListView view, int scrollState) {
+
+            }
+
+            @Override
+            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+            }
+        });
+
+        builder.appendQueryParameter("section", section);
+        builder.appendQueryParameter("order-by", orderBy);
+
+        return new ArticleLoader(this, builder.toString());
     }
 
     @Override
-    public void onLoadFinished(Loader<List<ArticleWords>> loader, List<ArticleWords> data) {
+    public void onLoadFinished(@NonNull Loader<List<ArticleWords>> loader, List<ArticleWords> data) {
 
         View loadingIndicator = findViewById(R.id.loading);
         assert loadingIndicator != null;
         loadingIndicator.setVisibility(View.GONE);
+
+        ConnectivityManager cm =
+                (ConnectivityManager) this.getSystemService(Context.CONNECTIVITY_SERVICE);
+        assert cm != null;
+        NetworkInfo networkInfo = cm.getActiveNetworkInfo();
+
+        if (networkInfo == null ) {
+//state that there is no internet connection
+            emptyStateText.setText(R.string.no_internet);
+        } else if (networkInfo.isConnected()){
+            emptyStateText.setText(R.string.no_article);
+        }
 
         mAdapter.clear();
 
@@ -74,7 +139,25 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     }
 
     @Override
-    public void onLoaderReset(Loader<List<ArticleWords>> loader) {
+    public void onLoaderReset(@NonNull Loader<List<ArticleWords>> loader) {
         mAdapter.clear();
     }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if (id == R.id.action_settings) {
+            Intent settingsIntent = new Intent(this, Settings.class);
+            startActivity(settingsIntent);
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
 }
