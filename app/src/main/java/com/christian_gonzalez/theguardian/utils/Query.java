@@ -15,7 +15,9 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
+import java.time.Instant;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class Query {
@@ -46,9 +48,7 @@ public class Query {
             Log.e(LOG_TAG, "Problem making the HTTP request.", e);
         }
 
-        List<ArticleWords> articles = extractFeatureFromJson(jsonResponse);
-
-        return articles;
+        return extractFeatureFromJson(jsonResponse);
     }
 
     private static URL createUrl(String stringUrl) {
@@ -143,15 +143,17 @@ public class Query {
 
                 JSONObject articleObjects = resultsArray.getJSONObject(i);
 
+                String type = articleObjects.getString("type");
+
                 String section = articleObjects.getString("sectionName");
 
-                Long date = articleObjects.getLong("webPublicationDate");
+                Date date = Date.from(Instant.parse(articleObjects.getString("webPublicationDate")));
 
-                String tittle = articleObjects.getString("webTitle");
+                String title = articleObjects.getString("webTitle");
 
                 String url = articleObjects.getString("webUrl");
 
-                ArticleWords information = new ArticleWords(section, date, tittle, url);
+                ArticleWords information = new ArticleWords(type, section, date, title, url);
 
                 // Add the new {@link Earthquake} to the list of earthquakes.
                 articles.add(information);

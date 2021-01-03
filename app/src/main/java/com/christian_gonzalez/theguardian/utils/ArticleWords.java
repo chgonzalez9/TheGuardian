@@ -1,17 +1,25 @@
 package com.christian_gonzalez.theguardian.utils;
 
+import java.util.Date;
+
 public class ArticleWords {
 
+    private String mType;
     private String sectionName;
-    private String webTittle;
-    private Long articleDate;
+    private String webTitle;
+    private Date articleDate;
     private String articleUrl;
 
-    public ArticleWords(String Section, Long Date, String Tittle, String Url) {
+    public ArticleWords(String Type, String Section, Date Date, String Title, String Url) {
+        mType = Type;
         sectionName = Section;
-        webTittle = Tittle;
+        webTitle = Title;
         articleDate = Date;
         articleUrl = Url;
+    }
+
+    public String getType() {
+        return mType;
     }
 
     public String getSection() {
@@ -19,10 +27,10 @@ public class ArticleWords {
     }
 
     public String getTittle() {
-        return webTittle;
+        return webTitle;
     }
 
-    public Long getDate() {
+    public Date getDate() {
         return articleDate;
     }
 
