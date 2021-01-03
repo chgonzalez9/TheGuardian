@@ -36,6 +36,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     private ListView listView;
     private ArticleAdapter mAdapter;
     private TextView emptyStateText;
+    private ArticleWords mWords;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -102,6 +103,9 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
             @Override
             public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+                if (!listView.canScrollVertically(1)) {
+                    builder.appendQueryParameter("currentPage", getPage());
+                }
             }
         });
 
@@ -158,6 +162,13 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private String getPage() {
+        int currentPage = mWords.getPage();
+        currentPage = currentPage + 1;
+
+        return String.valueOf(currentPage);
     }
 
 }

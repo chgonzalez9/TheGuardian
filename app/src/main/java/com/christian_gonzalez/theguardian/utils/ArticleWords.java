@@ -9,13 +9,15 @@ public class ArticleWords {
     private String webTitle;
     private Date articleDate;
     private String articleUrl;
+    private int currentPage;
 
-    public ArticleWords(String Type, String Section, Date Date, String Title, String Url) {
+    public ArticleWords(String Type, String Section, Date Date, String Title, String Url, int Page) {
         mType = Type;
         sectionName = Section;
         webTitle = Title;
         articleDate = Date;
         articleUrl = Url;
+        currentPage = Page;
     }
 
     public String getType() {
@@ -36,6 +38,10 @@ public class ArticleWords {
 
     public String getUrl() {
         return articleUrl;
+    }
+
+    public int getPage() {
+        return currentPage;
     }
 
 }

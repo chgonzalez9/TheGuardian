@@ -137,6 +137,8 @@ public class Query {
 
             JSONObject responseArray = baseJsonResponse.getJSONObject("response");
 
+            int page = responseArray.getInt("currentPage");
+
             JSONArray resultsArray = responseArray.getJSONArray("results");
 
             for (int i = 0; i < resultsArray.length(); i++) {
@@ -153,7 +155,7 @@ public class Query {
 
                 String url = articleObjects.getString("webUrl");
 
-                ArticleWords information = new ArticleWords(type, section, date, title, url);
+                ArticleWords information = new ArticleWords(type, section, date, title, url, page);
 
                 // Add the new {@link Earthquake} to the list of earthquakes.
                 articles.add(information);
