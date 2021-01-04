@@ -20,12 +20,17 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".utils.Settings"
-            android:label="@string/settings_title" >
+        <activity
+            android:name=".utils.Settings"
+            android:label="@string/settings_title">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.christian_gonzalez.theguardian.MainActivity" />
         </activity>
+
+        <meta-data
+            android:name="preloaded_fonts"
+            android:resource="@array/preloaded_fonts" />
 
     </application>
 

@@ -29,16 +29,6 @@ public class Query {
 
     public static List<ArticleWords> fetchArticleData(String requestUrl) {
 
-        /**
-         * Force thread to sleep two seconds.
-         */
-
-        try {
-            Thread.sleep(2000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
         URL url = createUrl(requestUrl);
 
         String jsonResponse = null;
@@ -137,8 +127,6 @@ public class Query {
 
             JSONObject responseArray = baseJsonResponse.getJSONObject("response");
 
-            int page = responseArray.getInt("currentPage");
-
             JSONArray resultsArray = responseArray.getJSONArray("results");
 
             for (int i = 0; i < resultsArray.length(); i++) {
@@ -155,7 +143,7 @@ public class Query {
 
                 String url = articleObjects.getString("webUrl");
 
-                ArticleWords information = new ArticleWords(type, section, date, title, url, page);
+                ArticleWords information = new ArticleWords(type, section, date, title, url);
 
                 // Add the new {@link Earthquake} to the list of earthquakes.
                 articles.add(information);

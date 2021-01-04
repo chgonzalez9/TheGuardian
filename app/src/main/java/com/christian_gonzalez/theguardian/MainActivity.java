@@ -1,10 +1,5 @@
 package com.christian_gonzalez.theguardian;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.loader.app.LoaderManager;
-import androidx.loader.content.Loader;
-
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -16,13 +11,16 @@ import android.preference.PreferenceManager;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AbsListView;
-import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.loader.app.LoaderManager;
+import androidx.loader.content.Loader;
+
 import com.christian_gonzalez.theguardian.adapter.ArticleAdapter;
-import com.christian_gonzalez.theguardian.adapter.ArticleLoader;
+import com.christian_gonzalez.theguardian.adapter.ArticleLoaderAdapter;
 import com.christian_gonzalez.theguardian.utils.ArticleWords;
 import com.christian_gonzalez.theguardian.utils.Settings;
 
@@ -33,36 +31,31 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
     private static final String TheGuardianUrl = "https://content.guardianapis.com/search?order-by=newest&section=business&page=1&q=economy&api-key=8deebd4e-d7d6-4782-9654-668debf9ce8d";
 
-    private ListView listView;
     private ArticleAdapter mAdapter;
     private TextView emptyStateText;
-    private ArticleWords mWords;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        listView = (ListView) findViewById(R.id.list);
+        ListView listView = findViewById(R.id.list);
 
-        mAdapter = new ArticleAdapter(this, new ArrayList<ArticleWords>());
+        mAdapter = new ArticleAdapter(this, new ArrayList<>());
         listView.setAdapter(mAdapter);
 
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
-                ArticleWords currentArticle = mAdapter.getItem(position);
-                Uri articleUri = Uri.parse(currentArticle.getUrl());
-                Intent website = new Intent(Intent.ACTION_VIEW, articleUri);
-                startActivity(website);
-            }
+        listView.setOnItemClickListener((adapterView, view, position, l) -> {
+            ArticleWords currentArticle = mAdapter.getItem(position);
+            Uri articleUri = Uri.parse(currentArticle.getUrl());
+            Intent website = new Intent(Intent.ACTION_VIEW, articleUri);
+            startActivity(website);
         });
 
-        emptyStateText = (TextView) findViewById(R.id.empty_view);
+        emptyStateText = findViewById(R.id.empty_view);
         listView.setEmptyView(emptyStateText);
 
         ConnectivityManager connMgr =
-                (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
+                (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
 
         NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
 
@@ -95,24 +88,10 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         Uri baseUri = Uri.parse(TheGuardianUrl);
         Uri.Builder builder = baseUri.buildUpon();
 
-        listView.setOnScrollListener(new AbsListView.OnScrollListener() {
-            @Override
-            public void onScrollStateChanged(AbsListView view, int scrollState) {
-
-            }
-
-            @Override
-            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-                if (!listView.canScrollVertically(1)) {
-                    builder.appendQueryParameter("currentPage", getPage());
-                }
-            }
-        });
-
         builder.appendQueryParameter("section", section);
         builder.appendQueryParameter("order-by", orderBy);
 
-        return new ArticleLoader(this, builder.toString());
+        return new ArticleLoaderAdapter(this, builder.toString());
     }
 
     @Override
@@ -162,13 +141,6 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
             return true;
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    private String getPage() {
-        int currentPage = mWords.getPage();
-        currentPage = currentPage + 1;
-
-        return String.valueOf(currentPage);
     }
 
 }

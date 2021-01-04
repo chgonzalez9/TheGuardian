@@ -20,6 +20,7 @@
         android:textAllCaps="true"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         android:textColor="#000000"
+        android:textSize="16sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -31,6 +32,8 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/article_text_margin_right"
         android:layout_marginTop="@dimen/article_text_margin_top"
+        android:fontFamily="@font/pirata_one"
+        android:textSize="16sp"
         android:textAllCaps="true"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@id/article_type"
@@ -45,9 +48,11 @@
         android:layout_marginTop="@dimen/text_separation_margin"
         android:layout_marginStart="@dimen/article_text_margin_right"
         android:layout_marginBottom="@dimen/article_text_margin_bottom"
+        android:fontFamily="@font/pirata_one"
+        android:textSize="16sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/article_section"
-        app:layout_constraintBottom_toBottomOf="parent"/>
+        app:layout_constraintBottom_toBottomOf="parent" />
 
     <TextView
         android:id="@+id/article_date"
@@ -55,9 +60,11 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="@dimen/article_text_margin_left"
         android:layout_marginBottom="@dimen/article_text_margin_bottom"
+        android:textSize="16sp"
+        android:fontFamily="@font/pirata_one"
         android:textAllCaps="true"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"/>
+        app:layout_constraintBottom_toBottomOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

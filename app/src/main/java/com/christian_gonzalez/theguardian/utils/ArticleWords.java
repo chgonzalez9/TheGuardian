@@ -4,20 +4,18 @@ import java.util.Date;
 
 public class ArticleWords {
 
-    private String mType;
-    private String sectionName;
-    private String webTitle;
-    private Date articleDate;
-    private String articleUrl;
-    private int currentPage;
+    private final String mType;
+    private final String sectionName;
+    private final String webTitle;
+    private final Date articleDate;
+    private final String articleUrl;
 
-    public ArticleWords(String Type, String Section, Date Date, String Title, String Url, int Page) {
+    public ArticleWords(String Type, String Section, Date Date, String Title, String Url) {
         mType = Type;
         sectionName = Section;
         webTitle = Title;
         articleDate = Date;
         articleUrl = Url;
-        currentPage = Page;
     }
 
     public String getType() {
@@ -38,10 +36,6 @@ public class ArticleWords {
 
     public String getUrl() {
         return articleUrl;
-    }
-
-    public int getPage() {
-        return currentPage;
     }
 
 }

@@ -9,11 +9,11 @@ import com.christian_gonzalez.theguardian.utils.Query;
 
 import java.util.List;
 
-public class ArticleLoader extends AsyncTaskLoader<List<ArticleWords>> {
+public class ArticleLoaderAdapter extends AsyncTaskLoader<List<ArticleWords>> {
 
-    private String mUrl;
+    private final String mUrl;
 
-    public ArticleLoader(Context context, String url) {
+    public ArticleLoaderAdapter(Context context, String url) {
         super(context);
         mUrl = url;
     }

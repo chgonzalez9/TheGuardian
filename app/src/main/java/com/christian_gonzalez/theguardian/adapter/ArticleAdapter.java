@@ -35,16 +35,16 @@ public class ArticleAdapter extends ArrayAdapter<ArticleWords> {
 
         ArticleWords currentWord = getItem(position);
 
-        TextView title = (TextView) listItemView.findViewById(R.id.article_title);
+        TextView title = listItemView.findViewById(R.id.article_title);
         title.setText(currentWord.getTittle());
 
-        TextView section = (TextView) listItemView.findViewById(R.id.article_section);
+        TextView section = listItemView.findViewById(R.id.article_section);
         section.setText(currentWord.getSection());
 
-        TextView type = (TextView) listItemView.findViewById(R.id.article_type);
+        TextView type = listItemView.findViewById(R.id.article_type);
         type.setText(currentWord.getType());
 
-        TextView date = (TextView) listItemView.findViewById(R.id.article_date);
+        TextView date = listItemView.findViewById(R.id.article_date);
         String formattedDate = formatDate(currentWord.getDate());
         date.setText(formattedDate);
 
