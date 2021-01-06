@@ -29,7 +29,7 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<List<ArticleWords>> {
 
-    private static final String TheGuardianUrl = "https://content.guardianapis.com/search?order-by=newest&section=business&page=1&q=economy&api-key=8deebd4e-d7d6-4782-9654-668debf9ce8d";
+    private static final String TheGuardianUrl = "https://content.guardianapis.com/search?";
 
     private ArticleAdapter mAdapter;
     private TextView emptyStateText;
@@ -88,8 +88,12 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         Uri baseUri = Uri.parse(TheGuardianUrl);
         Uri.Builder builder = baseUri.buildUpon();
 
+        builder.appendQueryParameter("show-fields", "thumbnail");
+        builder.appendQueryParameter("show-tags", "contributor");
         builder.appendQueryParameter("section", section);
         builder.appendQueryParameter("order-by", orderBy);
+        builder.appendQueryParameter("q", "economy");
+        builder.appendQueryParameter("api-key", "8deebd4e-d7d6-4782-9654-668debf9ce8d");
 
         return new ArticleLoaderAdapter(this, builder.toString());
     }

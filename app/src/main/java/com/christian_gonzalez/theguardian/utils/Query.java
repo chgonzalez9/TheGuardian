@@ -80,7 +80,7 @@ public class Query {
                 Log.e(LOG_TAG, "Error response code: " + urlConnection.getResponseCode());
             }
         } catch (IOException e) {
-            Log.e(LOG_TAG, "Problem retrieving the earthquake JSON results.", e);
+            Log.e(LOG_TAG, "Problem retrieving the Guardian JSON results.", e);
         } finally {
             if (urlConnection != null) {
                 urlConnection.disconnect();
@@ -111,16 +111,12 @@ public class Query {
     }
 
     private static List<ArticleWords> extractFeatureFromJson(String articleJSON) {
-        // If the JSON string is empty or null, then return early.
         if (TextUtils.isEmpty(articleJSON)) {
             return null;
         }
 
         List<ArticleWords> articles = new ArrayList<>();
 
-        // Try to parse the JSON response string. If there's a problem with the way the JSON
-        // is formatted, a JSONException exception object will be thrown.
-        // Catch the exception so the app doesn't crash, and print the error message to the logs.
         try {
 
             JSONObject baseJsonResponse = new JSONObject(articleJSON);
@@ -143,20 +139,24 @@ public class Query {
 
                 String url = articleObjects.getString("webUrl");
 
-                ArticleWords information = new ArticleWords(type, section, date, title, url);
+                JSONObject imageObject = articleObjects.getJSONObject("fields");
 
-                // Add the new {@link Earthquake} to the list of earthquakes.
+                String image = imageObject.getString("thumbnail");
+
+                JSONArray autorArray = articleObjects.getJSONArray("tags");
+
+                JSONObject contributorObject = autorArray.getJSONObject(0);
+
+                String contributor = contributorObject.getString("webTitle");
+
+                ArticleWords information = new ArticleWords(type, section, date, title, url, image, contributor);
+
                 articles.add(information);
             }
 
         } catch (JSONException e) {
-            // If an error is thrown when executing any of the above statements in the "try" block,
-            // catch the exception here, so the app doesn't crash. Print a log message
-            // with the message from the exception.
-            Log.e("QueryUtils", "Problem parsing the earthquake JSON results", e);
+            Log.e("QueryUtils", "Problem parsing the Guardian JSON results", e);
         }
-
-        // Return the list of earthquakes
         return articles;
     }
 
