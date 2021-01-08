@@ -16,6 +16,7 @@
         android:layout_marginStart="@dimen/article_text_margin_right"
         android:layout_marginTop="@dimen/article_title_margin_top"
         android:layout_marginEnd="@dimen/article_text_margin_left"
+        android:layout_marginBottom="@dimen/text_separation_margin"
         android:textAlignment="center"
         android:textAllCaps="true"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
@@ -25,6 +26,20 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/article_image"
+        android:layout_width="330dp"
+        android:layout_height="wrap_content"
+        android:foregroundGravity="center"
+        android:layout_marginTop="@dimen/text_separation_margin"
+        android:layout_marginBottom="@dimen/text_separation_margin"
+        android:layout_marginStart="@dimen/article_text_margin_right"
+        android:layout_marginEnd="@dimen/article_text_margin_left"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/article_title"
+        android:contentDescription="@string/image_description" />
 
     <TextView
         android:id="@+id/article_section"
@@ -38,7 +53,7 @@
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@id/article_type"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/article_title" />
+        app:layout_constraintTop_toBottomOf="@id/article_image" />
 
 
     <TextView
@@ -55,15 +70,29 @@
         app:layout_constraintBottom_toBottomOf="parent" />
 
     <TextView
+        android:id="@+id/article_contributor"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/article_text_margin_left"
+        android:layout_marginTop="@dimen/article_text_margin_top"
+        android:fontFamily="@font/pirata_one"
+        android:textSize="16sp"
+        android:textAllCaps="true"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@id/article_date"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/article_image" />
+
+    <TextView
         android:id="@+id/article_date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/text_separation_margin"
         android:layout_marginEnd="@dimen/article_text_margin_left"
         android:layout_marginBottom="@dimen/article_text_margin_bottom"
         android:textSize="16sp"
         android:fontFamily="@font/pirata_one"
         android:textAllCaps="true"
-        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent" />
 

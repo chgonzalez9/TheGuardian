@@ -111,7 +111,6 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         NetworkInfo networkInfo = cm.getActiveNetworkInfo();
 
         if (networkInfo == null ) {
-//state that there is no internet connection
             emptyStateText.setText(R.string.no_internet);
         } else if (networkInfo.isConnected()){
             emptyStateText.setText(R.string.no_article);

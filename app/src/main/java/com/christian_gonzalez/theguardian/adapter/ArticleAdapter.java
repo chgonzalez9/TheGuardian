@@ -6,11 +6,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.bumptech.glide.Glide;
 import com.christian_gonzalez.theguardian.R;
 import com.christian_gonzalez.theguardian.utils.ArticleWords;
 
@@ -35,6 +37,9 @@ public class ArticleAdapter extends ArrayAdapter<ArticleWords> {
 
         ArticleWords currentWord = getItem(position);
 
+        ImageView image = (ImageView) listItemView.findViewById(R.id.article_image);
+        Glide.with(getContext()).load(currentWord.getImage()).into(image);
+
         TextView title = listItemView.findViewById(R.id.article_title);
         title.setText(currentWord.getTittle());
 
@@ -44,6 +49,9 @@ public class ArticleAdapter extends ArrayAdapter<ArticleWords> {
         TextView type = listItemView.findViewById(R.id.article_type);
         type.setText(currentWord.getType());
 
+        TextView contributor = listItemView.findViewById(R.id.article_contributor);
+        contributor.setText(currentWord.getContributor());
+
         TextView date = listItemView.findViewById(R.id.article_date);
         String formattedDate = formatDate(currentWord.getDate());
         date.setText(formattedDate);
@@ -52,7 +60,7 @@ public class ArticleAdapter extends ArrayAdapter<ArticleWords> {
     }
 
     private String formatDate(Date dateObject) {
-        @SuppressLint("SimpleDateFormat") SimpleDateFormat dateFormat = new SimpleDateFormat("LLL dd, yyyy \n h:mm");
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat dateFormat = new SimpleDateFormat("LLL dd, yyyy h:mm");
         return dateFormat.format(dateObject);
     }
 
